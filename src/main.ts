@@ -2,9 +2,13 @@ import { enableProdMode } from '@angular/core';
 import { appConfig } from "./app/app.config";
 import {bootstrapApplication} from "@angular/platform-browser";
 import {AppComponent} from "./app/app.component";
+import { environment } from './environments/environment';
 
 
-//enableProdMode(); //Uncomment for production
+if (environment.production) {
+  enableProdMode();
+}
+
 bootstrapApplication(AppComponent, appConfig)
-  .then((success: any) => console.log('App bootstrapped'))
-  .catch((err: any) => console.error(err));
+  .then(() => console.log('App bootstrapped'))
+  .catch((err: Error) => console.error(err));

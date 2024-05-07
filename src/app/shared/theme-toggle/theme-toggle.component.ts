@@ -4,7 +4,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatIconButton} from "@angular/material/button";
 
 @Component({
-  selector: 'app-theme-toggle',
+  selector: 'idle-theme-toggle',
   standalone: true,
   templateUrl: './theme-toggle.component.html',
   styleUrls: ['./theme-toggle.component.scss'],

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'game',
+  selector: 'idle-game',
   standalone: true,
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'

@@ -1,13 +1,28 @@
-name: CI
+name: IdleGame-Web CI/CD
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+      - release/**
+    paths-ignore:
+      - 'CODEOWNERS'
+      - 'LICENSE'
+      - 'README.md'
+      - 'docs/**'
+  pull_request:
+    paths-ignore:
+      - 'CODEOWNERS'
+      - 'LICENSE'
+      - 'README.md'
+      - 'docs/**'
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js 20.11
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.11

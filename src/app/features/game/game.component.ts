@@ -15,6 +15,8 @@ function getRandomInt(min: number, max: number) {
 export class GameComponent implements OnInit {
   count = 0;
 
+  intervalId: number | null = null;
+
   clickGadgets = {
     doubleTap: {
       num: 0,
@@ -33,8 +35,6 @@ export class GameComponent implements OnInit {
   get gadgetNum() {
     return this.clickGadgets.doubleTap.num + this.clickGadgets.autoClicker.num + this.clickGadgets.luckyFinger.num;
   }
-
-  intervalId: number | null = null;
 
   clickButton() {
     this.count += getRandomInt(1, 1 + this.clickGadgets.luckyFinger.num);

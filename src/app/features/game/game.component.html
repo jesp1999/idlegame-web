@@ -1,4 +1,14 @@
-<div class="content">
-  <button (click)="incrementCount()">Click me</button>
+<div class="clickable">
+  <button (click)="manualClickButton()">Click me</button>
+  <p>You have clicked the button {{count}} times.</p>
 </div>
-<p>You have clicked the button {{count}} times.</p>
+<div class="shop">
+  <div class="product">
+    <button (click)="buyDoubleTapGadget()">Buy Double Tap - {{clickGadgets.doubleTap.cost}}&#199;</button>
+    <button (click)="buyAutoClicker()">Buy Auto-Clicker - {{clickGadgets.autoClicker.cost}}&#199;</button>
+    <button (click)="buyLuckyFinger()">Buy Lucky Finger - {{clickGadgets.luckyFinger.cost}}&#199;</button>
+  </div>
+  <div class="shopResponse">
+    <p>You've purchased {{gadgetNum}} gadgets.</p>
+  </div>
+</div>

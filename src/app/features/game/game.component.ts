@@ -46,6 +46,10 @@ export class GameComponent implements OnInit {
   }
 
   buyGadget(gadget: string) {
+    if (!this.clickGadgets.has(gadget)) {
+      console.error("Gadget not found");
+      return;
+    }
     if (this.count >= this.clickGadgets.get(gadget)!.cost) {
       this.count -= this.clickGadgets.get(gadget)!.cost;
       this.clickGadgets.get(gadget)!.count += 1;

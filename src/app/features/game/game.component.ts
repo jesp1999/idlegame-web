@@ -1,88 +1,57 @@
 import {Component, OnInit} from '@angular/core';
+import {NgForOf} from "@angular/common";
 
-function getRandomInt(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+class Gadget {
+  constructor(public name: string, public count: number = 0, public cost: number = 0) {
+    this.name = name;
+    this.count = count;
+    this.cost = cost;
+  }
 }
 
 @Component({
   selector: 'idle-game',
   standalone: true,
   templateUrl: './game.component.html',
+  imports: [
+    NgForOf
+  ],
   styleUrl: './game.component.scss'
 })
 export class GameComponent implements OnInit {
-  count = 0;
+  count: number = 0;
 
-  intervalId: number | null = null;
+  refreshRate: number = 0.1;
 
-  clickGadgets = {
-    doubleTap: {
-      num: 0,
-      cost: 10
-    },
-    autoClicker: {
-      num: 0,
-      cost: 100
-    },
-    luckyFinger: {
-      num: 0,
-      cost: 1000
-    }
-  };
+  clickGadgets: Map<string, Gadget> = new Map<string, Gadget>([
+    ["doubleTap", new Gadget("Double-Tap", 0, 10)],
+    ["autoClicker", new Gadget("Auto-Clicker", 0, 100)],
+    ["luckyFinger", new Gadget("Lucky-Finger", 0, 1000)]
+  ]);
 
-  get gadgetNum() {
-    return this.clickGadgets.doubleTap.num + this.clickGadgets.autoClicker.num + this.clickGadgets.luckyFinger.num;
-  }
-
-  clickButton() {
-    this.count += getRandomInt(1, 1 + this.clickGadgets.luckyFinger.num);
+  get gadgetCount() {
+    return this.clickGadgets.get('doubleTap')!.count + this.clickGadgets.get('autoClicker')!.count + this.clickGadgets.get('luckyFinger')!.count;
   }
 
   autoClickButton() {
-    this.clickButton();
+    this.count += this.refreshRate * this.clickGadgets.get('autoClicker')!.count * (1 + (Math.random() * this.clickGadgets.get('luckyFinger')!.count));
   }
 
   manualClickButton() {
-    this.clickButton();
-    this.count += this.clickGadgets.doubleTap.num;
+    this.count += 1 + this.clickGadgets.get('doubleTap')!.count;
   }
 
   ngOnInit() {
-    this.adjustInterval();
+    setInterval(() => this.autoClickButton(), 1000 * this.refreshRate);
   }
 
-  buyDoubleTapGadget() {
-    if (this.count >= this.clickGadgets.doubleTap.cost) {
-      this.count -= this.clickGadgets.doubleTap.cost;
-      this.clickGadgets.doubleTap.num += 1;
-      this.clickGadgets.doubleTap.cost *= 2;
+  buyGadget(gadget: string) {
+    if (this.count >= this.clickGadgets.get(gadget)!.cost) {
+      this.count -= this.clickGadgets.get(gadget)!.cost;
+      this.clickGadgets.get(gadget)!.count += 1;
+      this.clickGadgets.get(gadget)!.cost *= 2;
     }
   }
 
-  buyAutoClicker() {
-    if (this.count >= this.clickGadgets.autoClicker.cost) {
-      this.count -= this.clickGadgets.autoClicker.cost;
-      this.clickGadgets.autoClicker.num += 1;
-      this.clickGadgets.autoClicker.cost *= 2;
-      this.adjustInterval();
-    }
-  }
-
-  buyLuckyFinger() {
-    if (this.count >= this.clickGadgets.luckyFinger.cost) {
-      this.count -= this.clickGadgets.luckyFinger.cost;
-      this.clickGadgets.luckyFinger.num += 1;
-      this.clickGadgets.luckyFinger.cost *= 2;
-    }
-  }
-
-  adjustInterval() {
-    if (this.gadgetNum === 0) return;
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-    this.intervalId = setInterval(() => this.autoClickButton(), 1000/this.gadgetNum);
-  }
+  protected readonly Math = Math;
 }

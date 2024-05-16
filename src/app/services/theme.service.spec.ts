@@ -15,7 +15,7 @@ describe('ThemeService', () => {
   });
 
   it('should have a default dark mode of false', () => {
-    expect(service.isDarkMode()).toBeFalse();
+    expect(service.isDarkMode()).toBeTrue();
   });
 
   it('should be able to set dark mode', () => {

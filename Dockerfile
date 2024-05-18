@@ -1,8 +1,8 @@
 FROM node:latest AS build
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
-RUN npm install
-RUN npm install -g @angular/cli@latest
+RUN ["npm", "install"]
+RUN ["npm", "install", "-g", "@angular/cli@latest"]
 COPY . .
 CMD ["npm", "run", "build", "--configuration=production", "--output-path=dist"]
 EXPOSE 4200
